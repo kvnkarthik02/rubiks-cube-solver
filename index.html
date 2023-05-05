@@ -1,15 +1,18 @@
-<!-- http://www.randelshofer.ch/webgl/rubikscube/ -->
-
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE HTML>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script type="text/javascript" src="lib/virtualcube.js"></script>
+<meta charset="utf-8" />
+<script type="text/javascript" src="lib/virtualrubik.js"></script>
+<script type="text/javascript">includeVirtualRubik("lib", "objects", "shaders");</script>
 </head>
-<body>
+<body onLoad="attachVirtualRubik();">
+    <canvas id="canvas1" class="virtualrubik" style="border: 1px solid" width="400" height="400"></canvas>
+    <p>
+        <button type="button"
+        onclick="document.getElementById('canvas1').virtualrubik.reset();">Reset</button>
+        <button type="button"
+        onclick="document.getElementById('canvas1').virtualrubik.moveRPrime();">R'</button>
+    </p>
     
 </body>
-</html>
+</html> 
