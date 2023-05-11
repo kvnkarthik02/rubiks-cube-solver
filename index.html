@@ -11,32 +11,47 @@
     <p>
         <button type="button"
         onclick="document.getElementById('canvas1').virtualrubik.reset();">Reset</button>
-
-        <button type="button"
-        onclick="document.getElementById('canvas1').virtualrubik.moveRPrime();">F</button>
         
     </p>
     <p>
         <button type="button"
         onclick="getNewScramble();">Get New Scramble</button>
-        <p id= "scrambleVal"></p>
-        
+        <p id= "scrambleVal">
+            <strong>
+                Scramble: 
+            </strong>
+        </p>
+        <strong>
+            Min. Moves Solution (Using Kociemba's Algorithm): 
+        </strong>
+        <p id="kociembaSolution"></p>
+        <button type="button"
+        onclick="animateSolution();">Animate Kociemba Solution</button>
     </p>
 </body>
+
 <script type="text/javascript">
+    let scramble= "";
+    let kociembaSoln = "";
     function getNewScramble(){
-        const scramble = cubeSolver.scramble();
-        console.log(scramble);
-        document.getElementById("scrambleVal").innerHTML = scramble;
+        scramble = cubeSolver.scramble();
+        document.getElementById("scrambleVal").innerHTML += scramble;
         scrambleSplit = scramble.split(" ");
-        // document.getElementById('canvas1').virtualrubik.makeMove(0,1,2);
+        kociembaSoln = cubeSolver.solve(scramble, type='kociemba');
+        document.getElementById("kociembaSolution").innerHTML += kociembaSoln;
         parse(scrambleSplit);
+
+    }
+
+    function animateSolution(){
+        solution = document.getElementById("kociembaSolution").innerHTML;
+        solutionSplit = solution.split(" ");
+        parse(solutionSplit);
     }
 
     function parse(scrambleSplit){
         let axis, layerMask, angle;
         moveToMake = scrambleSplit[0][0];
-        console.log(moveToMake);
         switch (moveToMake) {
         case "R":
             axis = 0;
