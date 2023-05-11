@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <script type="text/javascript" src="lib/virtualrubik.js"></script>
+<script type="text/javascript" src="lib/bundle.js"></script>
 <script type="text/javascript">includeVirtualRubik("lib", "objects", "shaders");</script>
 </head>
 <body onLoad="attachVirtualRubik();">
@@ -10,9 +11,115 @@
     <p>
         <button type="button"
         onclick="document.getElementById('canvas1').virtualrubik.reset();">Reset</button>
+
         <button type="button"
-        onclick="document.getElementById('canvas1').virtualrubik.moveRPrime();">R'</button>
+        onclick="document.getElementById('canvas1').virtualrubik.moveRPrime();">F</button>
+        
     </p>
-    
+    <p>
+        <button type="button"
+        onclick="getNewScramble();">Get New Scramble</button>
+        <p id= "scrambleVal"></p>
+        
+    </p>
 </body>
+<script type="text/javascript">
+    function getNewScramble(){
+        const scramble = cubeSolver.scramble();
+        console.log(scramble);
+        document.getElementById("scrambleVal").innerHTML = scramble;
+        scrambleSplit = scramble.split(" ");
+        // document.getElementById('canvas1').virtualrubik.makeMove(0,1,2);
+        parse(scrambleSplit);
+    }
+
+    function parse(scrambleSplit){
+        let axis, layerMask, angle;
+        moveToMake = scrambleSplit[0][0];
+        console.log(moveToMake);
+        switch (moveToMake) {
+        case "R":
+            axis = 0;
+            layerMask = 4;
+            angle = 1;
+            if(scrambleSplit[0][1] == "'") {
+            angle *= -1;
+            }
+            if(scrambleSplit[0][1] == "2") {
+            angle *=2;
+            }
+            break;
+        
+        case "U":
+            axis = 1;
+            layerMask = 4;
+            angle = 1;
+            if(scrambleSplit[0][1] == "'") {
+            angle *= -1;
+            }
+            else if(scrambleSplit[0][1] == "2") {
+            angle *=2;
+            }
+            break;
+        
+        case "L":
+            console.log("caught here");
+            axis = 0;
+            layerMask = 1;
+            angle = -1;
+            if(scrambleSplit[0][1] == "'") {
+            angle *= -1;
+            }
+            else if(scrambleSplit[0][1] == "2") {
+            angle *=2;
+            }
+            break;
+
+        case "F":
+            axis = 2;
+            layerMask = 4;
+            angle = 1;
+            if(scrambleSplit[0][1] == "'") {
+            angle *= -1;
+            }
+            else if(scrambleSplit[0][1] == "2") {
+            angle *=2;
+            }
+            break;
+
+        case "D":
+            axis = 1;
+            layerMask = 1;
+            angle = -1;
+            if(scrambleSplit[0][1] == "'") {
+            angle *= -1;
+            }
+            else if(scrambleSplit[0][1] == "2") {
+            angle *=2;
+            }
+            break;
+
+        case "B":
+            axis = 2;
+            layerMask = 1;
+            angle = -1;
+            if(scrambleSplit[0][1] == "'") {
+            angle *= -1;
+            }
+            else if(scrambleSplit[0][1] == "2") {
+            angle *=2;
+            }
+            break;
+        }
+        document.getElementById('canvas1').virtualrubik.makeMove(axis,layerMask,angle);
+        setTimeout(function(){
+            scrambleSplitCopy = scrambleSplit.slice(1);
+            if(scrambleSplitCopy.length > 0){
+                parse(scrambleSplitCopy);
+            }
+        }, 1000);
+
+    }
+
+</script>
 </html> 
